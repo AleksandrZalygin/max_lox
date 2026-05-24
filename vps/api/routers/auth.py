@@ -3,8 +3,8 @@ from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+import bcrypt as bcrypt_lib
 from jose import JWTError, jwt
-from passlib.hash import bcrypt
 from pydantic import BaseModel
 
 from config import settings
@@ -61,7 +61,7 @@ async def login(body: LoginRequest, request: Request):
             body.username, client_host,
         )
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    if not settings.ADMIN_PASSWORD_HASH or not bcrypt.verify(body.password, settings.ADMIN_PASSWORD_HASH):
+    if not settings.ADMIN_PASSWORD_HASH or not bcrypt_lib.checkpw(body.password.encode(), settings.ADMIN_PASSWORD_HASH.encode()):
         logger.warning(
             "Login failed: wrong password for user '%s' (client=%s)",
             body.username, client_host,
