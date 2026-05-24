@@ -32,7 +32,7 @@ export const StationDetail: React.FC = () => {
   const [state, setState] = useState<StationState | null>(null);
   const [events, setEvents] = useState<ApiEvent[]>([]);
   const [targetLevel, setTargetLevel] = useState(80);
-  const { lastMessage, connected, send } = useWebSocket(buildWsUrl());
+  const { lastMessage, connected } = useWebSocket(buildWsUrl());
 
   useEffect(() => {
     if (!stationId) return;
