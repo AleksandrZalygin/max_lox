@@ -1,0 +1,38 @@
+{
+  "name": "iot-water-ui",
+  "version": "1.0.0",
+  "description": "Water tank management local GUI",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "concurrently \"tsc -p tsconfig.main.json -w\" \"tsc -p tsconfig.renderer.json -w\" \"wait-on dist/main/main.js && electron .\"",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "tsc -p tsconfig.renderer.json",
+    "build": "npm run build:main && npm run build:renderer",
+    "start": "electron .",
+    "pack": "npm run build && electron-builder"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "recharts": "^2.13.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/react-router-dom": "^5.3.3",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.7.2",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.iot.watertank",
+    "productName": "Water Tank UI",
+    "linux": {
+      "target": "deb"
+    }
+  }
+}

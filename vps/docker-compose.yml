@@ -1,0 +1,64 @@
+services:
+  traefik:
+    image: traefik:v3.2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/acme.json:/acme.json
+    networks:
+      - proxy
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - web_static:/usr/share/nginx/html:ro
+    depends_on:
+      - vps-api
+      - vps-web
+    networks:
+      - proxy
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`${DOMAIN:-yourdomain.com}`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
+      # HTTP → HTTPS redirect handled by Traefik entrypoint config
+
+  vps-api:
+    build: ./api
+    restart: unless-stopped
+    environment:
+      API_KEY: ${API_KEY}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+      JWT_SECRET: ${JWT_SECRET}
+      RASPBERRY_API_URL: ${RASPBERRY_API_URL:-http://192.168.1.100:8000}
+    env_file:
+      - .env
+    networks:
+      - internal
+
+  vps-web:
+    build:
+      context: ./web
+      target: build-stage
+    image: iot-web-builder
+    volumes:
+      - web_static:/app/dist
+    restart: "no"
+
+volumes:
+  web_static:
+
+networks:
+  proxy:
+  internal:
+    internal: true
