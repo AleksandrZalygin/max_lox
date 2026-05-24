@@ -57,7 +57,7 @@ async def lifespan(app: FastAPI):
     app.state.pump_ctrl = PumpController()
     app.state.leak_detector = LeakDetector()
     app.state.auto_ctrl = AutoModeController()
-    app.state.vps_bridge = VpsBridge(settings.VPS_WS_URL, settings.VPS_API_KEY)
+    app.state.vps_bridge = VpsBridge(settings.VPS_WS_URL, settings.VPS_API_KEY, settings.STATION_ID)
 
     app.state.station_live: dict = {}
     app.state.last_moisture: dict = {}

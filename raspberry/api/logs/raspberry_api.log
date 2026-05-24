@@ -1,0 +1,692 @@
+2026-05-24 09:03:24 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 09:03:24 | INFO     | main:46 | Station ID: station_001
+2026-05-24 09:03:24 | INFO     | main:47 | VPS bridge: DISABLED (VPS_WS_URL not set)
+2026-05-24 09:03:24 | INFO     | main:52 | Database tables verified/created
+2026-05-24 09:03:24 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 09:03:24 | INFO     | services.vps_bridge:29 | VPS bridge disabled — VPS_WS_URL is not set
+2026-05-24 10:03:24 | INFO     | main:38 | Retention cleanup: deleted 0 measurements older than 7 days
+2026-05-24 10:27:57 | WARNING  | main:99 | HTTP GET / → 404 (0.7 ms)
+2026-05-24 10:33:11 | DEBUG    | routers.stations:36 | Listing 0 station(s)
+2026-05-24 10:33:11 | DEBUG    | main:99 | HTTP GET /api/stations → 200 (4.9 ms)
+2026-05-24 10:33:11 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 10:33:11 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 10:34:39 | WARNING  | main:99 | HTTP POST /api/stations//pumps → 404 (0.6 ms)
+2026-05-24 10:43:34 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 10:43:34 | INFO     | main:75 | Shutting down...
+2026-05-24 10:43:34 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 10:43:36 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 10:43:36 | INFO     | main:46 | Station ID: station_001
+2026-05-24 10:43:36 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 10:43:36 | INFO     | main:52 | Database tables verified/created
+2026-05-24 10:43:36 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 10:43:36 | INFO     | services.vps_bridge:32 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 10:43:36 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:43:36 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:43:36 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 2s (backoff)
+2026-05-24 10:43:37 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 10:43:37 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 10:43:38 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:43:38 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:43:38 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 4s (backoff)
+2026-05-24 10:43:42 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:43:42 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:43:42 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 8s (backoff)
+2026-05-24 10:43:50 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:43:50 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:43:50 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 16s (backoff)
+2026-05-24 10:44:06 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:44:06 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:44:06 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 32s (backoff)
+2026-05-24 10:44:38 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:44:38 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:44:38 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:45:16 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 10:45:16 | INFO     | main:75 | Shutting down...
+2026-05-24 10:45:16 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 10:45:17 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 10:45:17 | INFO     | main:46 | Station ID: station_001
+2026-05-24 10:45:17 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 10:45:17 | INFO     | main:52 | Database tables verified/created
+2026-05-24 10:45:17 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 10:45:17 | INFO     | services.vps_bridge:32 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 10:45:17 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:45:17 | ERROR    | services.vps_bridge:68 | VPS bridge unexpected error: create_connection() got an unexpected keyword argument 'additional_headers'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 38, in run_forever
+    async with websockets.connect(
+               ~~~~~~~~~~~~~~~~~~^
+        self._vps_url,
+        ^^^^^^^^^^^^^^
+        additional_headers={"X-API-Key": self._api_key},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as ws:
+    ^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 635, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/legacy/client.py", line 654, in __await_impl__
+    _transport, protocol = await self._create_connection()
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "uvloop/loop.pyx", line 1857, in uvloop.loop.Loop.create_connection
+TypeError: create_connection() got an unexpected keyword argument 'additional_headers'
+2026-05-24 10:45:17 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 2s (backoff)
+2026-05-24 10:45:18 | INFO     | main:75 | Shutting down...
+2026-05-24 10:45:18 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 10:45:19 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 10:45:19 | INFO     | main:46 | Station ID: station_001
+2026-05-24 10:45:19 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 10:45:19 | INFO     | main:52 | Database tables verified/created
+2026-05-24 10:45:19 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 10:45:19 | INFO     | services.vps_bridge:32 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 10:45:19 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:45:19 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 10:45:19 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 10:45:20 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:45:20 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 2s (backoff)
+2026-05-24 10:45:22 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:45:23 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:45:23 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 4s (backoff)
+2026-05-24 10:45:27 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:45:28 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:45:28 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 8s (backoff)
+2026-05-24 10:45:36 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:45:37 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:45:37 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 16s (backoff)
+2026-05-24 10:45:53 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:45:54 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:45:54 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 32s (backoff)
+2026-05-24 10:46:26 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:46:28 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:46:28 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:47:28 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:47:30 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:47:30 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:48:30 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:48:31 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:48:31 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:49:31 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:49:32 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:49:32 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:50:32 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:50:34 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:50:34 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:51:34 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:51:35 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:51:35 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:52:35 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:52:36 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:52:36 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:53:36 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:53:37 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:53:37 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:54:37 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:54:38 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:54:38 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:55:38 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:55:40 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:55:40 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:56:40 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:56:41 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:56:41 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:57:41 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:57:42 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:57:42 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:58:42 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:58:43 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:58:43 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 10:59:43 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 10:59:44 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 10:59:44 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:00:44 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:00:45 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 11:00:45 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:01:45 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:01:47 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 11:01:47 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:02:47 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:02:48 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 11:02:48 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:03:48 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:03:48 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 11:03:48 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:04:48 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:04:49 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 11:04:49 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:05:49 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:05:50 | ERROR    | services.vps_bridge:59 | VPS rejected connection: HTTP 403 — check API_KEY matches on both sides
+2026-05-24 11:05:50 | WARNING  | services.vps_bridge:72 | VPS bridge disconnected — reconnecting in 60s (backoff)
+2026-05-24 11:06:40 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 11:06:40 | INFO     | main:75 | Shutting down...
+2026-05-24 11:06:40 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 11:06:41 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 11:06:41 | INFO     | main:46 | Station ID: station_001
+2026-05-24 11:06:41 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:06:42 | INFO     | main:52 | Database tables verified/created
+2026-05-24 11:06:42 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 11:06:42 | INFO     | services.vps_bridge:32 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:06:42 | INFO     | services.vps_bridge:37 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:06:42 | INFO     | services.vps_bridge:45 | VPS bridge connected (total connections: 1)
+2026-05-24 11:06:43 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 11:06:43 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 11:09:28 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 11:09:28 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 11:09:28 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 11:09:28 | DEBUG    | routers.stations:36 | Listing 0 station(s)
+2026-05-24 11:09:28 | DEBUG    | main:99 | HTTP GET /api/stations → 200 (12.5 ms)
+2026-05-24 11:09:32 | WARNING  | main:99 | HTTP POST /api/stations//pumps → 404 (0.5 ms)
+2026-05-24 11:09:33 | WARNING  | main:99 | HTTP POST /api/stations//mode → 404 (0.4 ms)
+2026-05-24 11:09:34 | WARNING  | main:99 | HTTP POST /api/stations//mode → 404 (0.6 ms)
+2026-05-24 11:10:08 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 11:10:20 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 11:10:20 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 11:10:20 | DEBUG    | routers.stations:36 | Listing 0 station(s)
+2026-05-24 11:10:20 | DEBUG    | main:99 | HTTP GET /api/stations → 200 (3.0 ms)
+2026-05-24 11:13:33 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 11:13:33 | INFO     | main:75 | Shutting down...
+2026-05-24 11:13:33 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 11:13:34 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 11:13:34 | INFO     | main:46 | Station ID: station_001
+2026-05-24 11:13:34 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:34 | INFO     | main:52 | Database tables verified/created
+2026-05-24 11:13:34 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 11:13:34 | INFO     | services.vps_bridge:33 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:34 | INFO     | services.vps_bridge:38 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:13:35 | INFO     | services.vps_bridge:46 | VPS bridge connected (total connections: 1)
+2026-05-24 11:13:35 | INFO     | main:75 | Shutting down...
+2026-05-24 11:13:35 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 11:13:36 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 11:13:36 | INFO     | main:46 | Station ID: station_001
+2026-05-24 11:13:36 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:36 | INFO     | main:52 | Database tables verified/created
+2026-05-24 11:13:36 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 11:13:36 | INFO     | services.vps_bridge:33 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:36 | INFO     | services.vps_bridge:38 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:13:36 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 11:13:36 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 11:13:37 | INFO     | services.vps_bridge:46 | VPS bridge connected (total connections: 1)
+2026-05-24 11:13:37 | ERROR    | services.vps_bridge:75 | VPS bridge unexpected error: 'VpsBridge' object has no attribute '_send_presence'
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 52, in run_forever
+    await self._send_presence()
+          ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VpsBridge' object has no attribute '_send_presence'
+2026-05-24 11:13:37 | WARNING  | services.vps_bridge:79 | VPS bridge disconnected — reconnecting in 2s (backoff)
+2026-05-24 11:13:39 | INFO     | services.vps_bridge:38 | VPS bridge connecting... (attempt #2)
+2026-05-24 11:13:40 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 11:13:40 | INFO     | main:75 | Shutting down...
+2026-05-24 11:13:40 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 11:13:41 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 11:13:41 | INFO     | main:46 | Station ID: station_001
+2026-05-24 11:13:41 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:41 | INFO     | main:52 | Database tables verified/created
+2026-05-24 11:13:41 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 11:13:41 | INFO     | services.vps_bridge:33 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:41 | INFO     | services.vps_bridge:38 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:13:42 | INFO     | services.vps_bridge:46 | VPS bridge connected (total connections: 1)
+2026-05-24 11:13:43 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 11:13:43 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 11:13:43 | DEBUG    | routers.websocket:329 | Electron clients remaining: 0
+2026-05-24 11:13:43 | INFO     | main:75 | Shutting down...
+2026-05-24 11:13:43 | INFO     | main:77 | Database engine disposed. Goodbye.
+2026-05-24 11:13:44 | INFO     | main:45 | === IoT Water Tank API starting ===
+2026-05-24 11:13:44 | INFO     | main:46 | Station ID: station_001
+2026-05-24 11:13:44 | INFO     | main:47 | VPS bridge: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:44 | INFO     | main:52 | Database tables verified/created
+2026-05-24 11:13:44 | INFO     | main:72 | === Startup complete. API ready on port 8000. ===
+2026-05-24 11:13:44 | INFO     | services.vps_bridge:33 | VPS bridge starting, target: wss://phantom-messenger.ru/ws/raspberry
+2026-05-24 11:13:44 | INFO     | services.vps_bridge:38 | VPS bridge connecting... (attempt #1)
+2026-05-24 11:13:45 | INFO     | services.vps_bridge:46 | VPS bridge connected (total connections: 1)
+2026-05-24 11:13:45 | INFO     | services.vps_bridge:99 | VPS presence sent (station=station_001)
+2026-05-24 11:13:46 | INFO     | routers.websocket:291 | Electron client connected from 172.18.0.1 (total clients before: 0)
+2026-05-24 11:13:46 | INFO     | routers.websocket:297 | Electron clients now connected: 1
+2026-05-24 11:42:31 | ERROR    | services.vps_bridge:75 | VPS bridge unexpected error: sent 1011 (internal error) keepalive ping timeout; no close frame received
+Traceback (most recent call last):
+  File "/app/services/vps_bridge.py", line 54, in run_forever
+    async for message in ws:
+    ...<7 lines>...
+            logger.exception("Error handling VPS command: %r", message)
+  File "/usr/local/lib/python3.13/site-packages/websockets/asyncio/connection.py", line 224, in __aiter__
+    yield await self.recv()
+          ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/websockets/asyncio/connection.py", line 279, in recv
+    raise self.protocol.close_exc from self.recv_exc
+websockets.exceptions.ConnectionClosedError: sent 1011 (internal error) keepalive ping timeout; no close frame received
+2026-05-24 11:42:31 | WARNING  | services.vps_bridge:79 | VPS bridge disconnected — reconnecting in 2s (backoff)
+2026-05-24 11:42:33 | INFO     | services.vps_bridge:38 | VPS bridge connecting... (attempt #2)
+2026-05-24 11:42:34 | INFO     | services.vps_bridge:46 | VPS bridge connected (total connections: 2)
+2026-05-24 11:42:34 | INFO     | services.vps_bridge:99 | VPS presence sent (station=station_001)
+2026-05-24 11:51:02 | INFO     | routers.websocket:94 | Arduino WebSocket connected from 10.165.149.201
+2026-05-24 11:51:02 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#1)
+2026-05-24 11:51:02 | INFO     | routers.websocket:251 | First moisture reading received from Nano2: 100.0% (station=station_001)
+2026-05-24 11:51:03 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#2)
+2026-05-24 11:51:04 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#3)
+2026-05-24 11:51:05 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#4)
+2026-05-24 11:51:06 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#5)
+2026-05-24 11:51:07 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#6)
+2026-05-24 11:51:08 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#7)
+2026-05-24 11:51:09 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#8)
+2026-05-24 11:51:10 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#9)
+2026-05-24 11:51:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#10)
+2026-05-24 11:51:12 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#11)
+2026-05-24 11:51:13 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#12)
+2026-05-24 11:51:14 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#13)
+2026-05-24 11:51:15 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#14)
+2026-05-24 11:51:16 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#15)
+2026-05-24 11:51:17 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#16)
+2026-05-24 11:51:18 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#17)
+2026-05-24 11:51:19 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#18)
+2026-05-24 11:51:20 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#19)
+2026-05-24 11:51:21 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#20)
+2026-05-24 11:51:22 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#21)
+2026-05-24 11:51:23 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#22)
+2026-05-24 11:51:24 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#23)
+2026-05-24 11:51:25 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#24)
+2026-05-24 11:51:26 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#25)
+2026-05-24 11:51:27 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#26)
+2026-05-24 11:51:28 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#27)
+2026-05-24 11:51:29 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#28)
+2026-05-24 11:51:30 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#29)
+2026-05-24 11:51:31 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#30)
+2026-05-24 11:51:32 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#31)
+2026-05-24 11:51:33 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#32)
+2026-05-24 11:51:34 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#33)
+2026-05-24 11:51:35 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#34)
+2026-05-24 11:51:36 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#35)
+2026-05-24 11:51:37 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#36)
+2026-05-24 11:51:38 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#37)
+2026-05-24 11:51:39 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#38)
+2026-05-24 11:51:40 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#39)
+2026-05-24 11:51:41 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#40)
+2026-05-24 11:51:42 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#41)
+2026-05-24 11:51:43 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#42)
+2026-05-24 11:51:44 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#43)
+2026-05-24 11:51:45 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#44)
+2026-05-24 11:51:46 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#45)
+2026-05-24 11:51:47 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#46)
+2026-05-24 11:51:48 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#47)
+2026-05-24 11:51:49 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#48)
+2026-05-24 11:51:50 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#49)
+2026-05-24 11:51:51 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#50)
+2026-05-24 11:51:52 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#51)
+2026-05-24 11:51:53 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#52)
+2026-05-24 11:51:54 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#53)
+2026-05-24 11:51:55 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#54)
+2026-05-24 11:51:56 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#55)
+2026-05-24 11:51:57 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#56)
+2026-05-24 11:51:58 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#57)
+2026-05-24 11:51:59 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#58)
+2026-05-24 11:52:00 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#59)
+2026-05-24 11:52:01 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#60)
+2026-05-24 11:52:02 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#61)
+2026-05-24 11:52:03 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#62)
+2026-05-24 11:52:04 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#63)
+2026-05-24 11:52:05 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#64)
+2026-05-24 11:52:06 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#65)
+2026-05-24 11:52:07 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#66)
+2026-05-24 11:52:08 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#67)
+2026-05-24 11:52:09 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#68)
+2026-05-24 11:52:10 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#69)
+2026-05-24 11:52:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#70)
+2026-05-24 11:52:12 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#71)
+2026-05-24 11:52:13 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#72)
+2026-05-24 11:52:14 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#73)
+2026-05-24 11:52:15 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#74)
+2026-05-24 11:52:40 | INFO     | services.pump_control:32 | Arduino WebSocket unregistered from PumpController
+2026-05-24 11:52:40 | INFO     | routers.websocket:282 | Arduino cleanup done (station=station_001 device=esp32)
+2026-05-24 11:52:41 | INFO     | routers.websocket:94 | Arduino WebSocket connected from 10.165.149.201
+2026-05-24 11:52:41 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#1)
+2026-05-24 11:52:42 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#2)
+2026-05-24 11:52:43 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#3)
+2026-05-24 11:52:44 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#4)
+2026-05-24 11:52:45 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#5)
+2026-05-24 11:52:46 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#6)
+2026-05-24 11:52:47 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#7)
+2026-05-24 11:52:48 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#8)
+2026-05-24 11:52:49 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#9)
+2026-05-24 11:52:50 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#10)
+2026-05-24 11:52:51 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#11)
+2026-05-24 11:52:52 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#12)
+2026-05-24 11:52:53 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#13)
+2026-05-24 11:52:54 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#14)
+2026-05-24 11:52:55 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#15)
+2026-05-24 11:52:56 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#16)
+2026-05-24 11:52:57 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#17)
+2026-05-24 11:52:58 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#18)
+2026-05-24 11:52:59 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#19)
+2026-05-24 11:53:00 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#20)
+2026-05-24 11:53:01 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#21)
+2026-05-24 11:53:02 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#22)
+2026-05-24 11:53:03 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#23)
+2026-05-24 11:53:04 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#24)
+2026-05-24 11:53:05 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#25)
+2026-05-24 11:53:06 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#26)
+2026-05-24 11:53:07 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#27)
+2026-05-24 11:53:08 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#28)
+2026-05-24 11:53:09 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#29)
+2026-05-24 11:53:10 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#30)
+2026-05-24 11:53:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#31)
+2026-05-24 11:53:12 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#32)
+2026-05-24 11:53:13 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#33)
+2026-05-24 11:53:14 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#34)
+2026-05-24 11:53:15 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#35)
+2026-05-24 11:53:16 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#36)
+2026-05-24 11:53:17 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#37)
+2026-05-24 11:53:18 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#38)
+2026-05-24 11:53:19 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#39)
+2026-05-24 11:53:20 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#40)
+2026-05-24 11:53:21 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#41)
+2026-05-24 11:53:22 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#42)
+2026-05-24 11:53:23 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#43)
+2026-05-24 11:53:24 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#44)
+2026-05-24 11:53:25 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#45)
+2026-05-24 11:53:26 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#46)
+2026-05-24 11:53:27 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#47)
+2026-05-24 11:53:28 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#48)
+2026-05-24 11:53:29 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#49)
+2026-05-24 11:53:30 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#50)
+2026-05-24 11:53:31 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#51)
+2026-05-24 11:53:32 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#52)
+2026-05-24 11:53:33 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#53)
+2026-05-24 11:53:34 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#54)
+2026-05-24 11:53:35 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#55)
+2026-05-24 11:53:36 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#56)
+2026-05-24 11:53:37 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#57)
+2026-05-24 11:53:38 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#58)
+2026-05-24 11:53:39 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#59)
+2026-05-24 11:53:40 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#60)
+2026-05-24 11:53:41 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#61)
+2026-05-24 11:53:42 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#62)
+2026-05-24 11:53:43 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#63)
+2026-05-24 11:53:44 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#64)
+2026-05-24 11:53:45 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#65)
+2026-05-24 11:53:46 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#66)
+2026-05-24 11:53:47 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#67)
+2026-05-24 11:53:48 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#68)
+2026-05-24 11:53:49 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#69)
+2026-05-24 11:53:50 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#70)
+2026-05-24 11:53:51 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#71)
+2026-05-24 11:53:52 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#72)
+2026-05-24 11:53:53 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#73)
+2026-05-24 11:53:54 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#74)
+2026-05-24 11:53:55 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#75)
+2026-05-24 11:53:56 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#76)
+2026-05-24 11:53:57 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#77)
+2026-05-24 11:53:58 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#78)
+2026-05-24 11:53:59 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#79)
+2026-05-24 11:54:00 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#80)
+2026-05-24 11:54:01 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#81)
+2026-05-24 11:54:02 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#82)
+2026-05-24 11:54:03 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#83)
+2026-05-24 11:54:04 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#84)
+2026-05-24 11:54:05 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#85)
+2026-05-24 11:54:06 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#86)
+2026-05-24 11:54:07 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#87)
+2026-05-24 11:54:08 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#88)
+2026-05-24 11:54:09 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#89)
+2026-05-24 11:54:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#90)
+2026-05-24 11:54:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#91)
+2026-05-24 11:54:12 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#92)
+2026-05-24 11:54:13 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#93)
+2026-05-24 11:54:14 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#94)
+2026-05-24 11:54:15 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#95)
+2026-05-24 11:54:16 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#96)
+2026-05-24 11:54:17 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#97)
+2026-05-24 11:54:18 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#98)
+2026-05-24 11:54:19 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#99)
+2026-05-24 11:54:20 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#100)
+2026-05-24 11:54:21 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#101)
+2026-05-24 11:54:22 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#102)
+2026-05-24 11:54:23 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#103)
+2026-05-24 11:54:24 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#104)
+2026-05-24 11:54:25 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#105)
+2026-05-24 11:54:26 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#106)
+2026-05-24 11:54:27 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#107)
+2026-05-24 11:54:28 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#108)
+2026-05-24 11:54:29 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#109)
+2026-05-24 11:54:30 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#110)
+2026-05-24 11:54:31 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#111)
+2026-05-24 11:54:32 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#112)
+2026-05-24 11:54:33 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#113)
+2026-05-24 11:54:34 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#114)
+2026-05-24 11:54:35 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#115)
+2026-05-24 11:54:36 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#116)
+2026-05-24 11:54:37 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#117)
+2026-05-24 11:54:38 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#118)
+2026-05-24 11:54:39 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#119)
+2026-05-24 11:54:40 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#120)
+2026-05-24 11:54:41 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#121)
+2026-05-24 11:54:42 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#122)
+2026-05-24 11:54:43 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#123)
+2026-05-24 11:54:44 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#124)
+2026-05-24 11:54:45 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#125)
+2026-05-24 11:54:46 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#126)
+2026-05-24 11:54:47 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#127)
+2026-05-24 11:54:48 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#128)
+2026-05-24 11:54:49 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#129)
+2026-05-24 11:54:50 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#130)
+2026-05-24 11:54:51 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#131)
+2026-05-24 11:54:52 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#132)
+2026-05-24 11:54:53 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#133)
+2026-05-24 11:54:54 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#134)
+2026-05-24 11:54:55 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#135)
+2026-05-24 11:54:56 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#136)
+2026-05-24 11:54:57 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#137)
+2026-05-24 11:54:58 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#138)
+2026-05-24 11:54:59 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#139)
+2026-05-24 11:55:00 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#140)
+2026-05-24 11:55:01 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#141)
+2026-05-24 11:55:02 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#142)
+2026-05-24 11:55:03 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#143)
+2026-05-24 11:55:04 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#144)
+2026-05-24 11:55:05 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#145)
+2026-05-24 11:55:06 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#146)
+2026-05-24 11:55:07 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#147)
+2026-05-24 11:55:08 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#148)
+2026-05-24 11:55:09 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#149)
+2026-05-24 11:55:10 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#150)
+2026-05-24 11:55:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#151)
+2026-05-24 11:55:12 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#152)
+2026-05-24 11:55:13 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#153)
+2026-05-24 11:55:14 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#154)
+2026-05-24 11:55:15 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#155)
+2026-05-24 11:55:16 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#156)
+2026-05-24 11:55:17 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#157)
+2026-05-24 11:55:18 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#158)
+2026-05-24 11:55:19 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#159)
+2026-05-24 11:55:20 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#160)
+2026-05-24 11:55:21 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#161)
+2026-05-24 11:55:22 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#162)
+2026-05-24 11:55:23 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#163)
+2026-05-24 11:55:24 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#164)
+2026-05-24 11:55:25 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#165)
+2026-05-24 11:55:26 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#166)
+2026-05-24 11:55:27 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#167)
+2026-05-24 11:55:28 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#168)
+2026-05-24 11:55:29 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#169)
+2026-05-24 11:55:30 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#170)
+2026-05-24 11:55:31 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#171)
+2026-05-24 11:55:32 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#172)
+2026-05-24 11:55:33 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#173)
+2026-05-24 11:55:34 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#174)
+2026-05-24 11:55:35 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#175)
+2026-05-24 11:55:36 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#176)
+2026-05-24 11:55:37 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#177)
+2026-05-24 11:55:38 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#178)
+2026-05-24 11:55:39 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#179)
+2026-05-24 11:55:40 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#180)
+2026-05-24 11:55:41 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#181)
+2026-05-24 11:55:42 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#182)
+2026-05-24 11:55:43 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#183)
+2026-05-24 11:55:44 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#184)
+2026-05-24 11:55:45 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#185)
+2026-05-24 11:55:46 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#186)
+2026-05-24 11:55:47 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#187)
+2026-05-24 11:55:48 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#188)
+2026-05-24 11:55:49 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#189)
+2026-05-24 11:55:50 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#190)
+2026-05-24 11:55:51 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#191)
+2026-05-24 11:55:52 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#192)
+2026-05-24 11:55:53 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#193)
+2026-05-24 11:55:54 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#194)
+2026-05-24 11:55:55 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#195)
+2026-05-24 11:55:56 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#196)
+2026-05-24 11:55:57 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#197)
+2026-05-24 11:55:58 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#198)
+2026-05-24 11:55:59 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#199)
+2026-05-24 11:56:00 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#200)
+2026-05-24 11:56:01 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#201)
+2026-05-24 11:56:02 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#202)
+2026-05-24 11:56:03 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#203)
+2026-05-24 11:56:04 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#204)
+2026-05-24 11:56:05 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#205)
+2026-05-24 11:56:06 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#206)
+2026-05-24 11:56:07 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#207)
+2026-05-24 11:56:08 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#208)
+2026-05-24 11:56:09 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#209)
+2026-05-24 11:56:10 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#210)
+2026-05-24 11:56:11 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#211)
+2026-05-24 11:56:12 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#212)
+2026-05-24 11:56:13 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#213)
+2026-05-24 11:56:14 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#214)
+2026-05-24 11:56:15 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#215)
+2026-05-24 11:56:16 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#216)
+2026-05-24 11:56:17 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#217)
+2026-05-24 11:56:18 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#218)
+2026-05-24 11:56:19 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#219)
+2026-05-24 11:56:20 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#220)
+2026-05-24 11:56:21 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#221)
+2026-05-24 11:56:22 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#222)
+2026-05-24 11:56:23 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#223)
+2026-05-24 11:56:24 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#224)
+2026-05-24 11:56:25 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#225)
+2026-05-24 11:56:26 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#226)
+2026-05-24 11:56:27 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#227)
+2026-05-24 11:56:28 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#228)
+2026-05-24 11:56:30 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#229)
+2026-05-24 11:56:30 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#230)
+2026-05-24 11:56:32 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#231)
+2026-05-24 11:56:32 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#232)
+2026-05-24 11:56:33 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#233)
+2026-05-24 11:56:34 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#234)
+2026-05-24 11:56:35 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#235)
+2026-05-24 11:56:36 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#236)
+2026-05-24 11:56:37 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#237)
+2026-05-24 11:56:38 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#238)
+2026-05-24 11:56:39 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#239)
+2026-05-24 11:56:40 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#240)
+2026-05-24 11:56:41 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#241)
+2026-05-24 11:56:42 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#242)
+2026-05-24 11:56:43 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#243)
+2026-05-24 11:56:44 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#244)
+2026-05-24 11:56:45 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#245)
+2026-05-24 11:56:46 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#246)
+2026-05-24 11:56:47 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#247)
+2026-05-24 11:56:48 | DEBUG    | routers.websocket:244 | Nano2 data: moisture=100.0% raw=0 (station=station_001 msg#248)

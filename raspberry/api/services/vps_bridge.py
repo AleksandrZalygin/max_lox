@@ -5,8 +5,8 @@ import json
 import logging
 from typing import Any
 
-import websockets
 import websockets.exceptions
+from websockets.asyncio.client import connect as ws_connect
 
 logger = logging.getLogger(__name__)
 
@@ -14,9 +14,10 @@ MAX_BACKOFF = 60.0
 
 
 class VpsBridge:
-    def __init__(self, vps_url: str, api_key: str) -> None:
+    def __init__(self, vps_url: str, api_key: str, station_id: str = "") -> None:
         self._vps_url = vps_url
         self._api_key = api_key
+        self._station_id = station_id
         self._ws: Any = None
         self._app_state: Any = None
         self._connect_count = 0
@@ -35,7 +36,7 @@ class VpsBridge:
         while True:
             try:
                 logger.info("VPS bridge connecting... (attempt #%d)", self._connect_count + 1)
-                async with websockets.connect(
+                async with ws_connect(
                     self._vps_url,
                     additional_headers={"X-API-Key": self._api_key},
                 ) as ws:
@@ -43,6 +44,12 @@ class VpsBridge:
                     self._connect_count += 1
                     backoff = 2.0
                     logger.info("VPS bridge connected (total connections: %d)", self._connect_count)
+
+                    # Register the station with the VPS immediately. Without this, the VPS
+                    # holds the socket open but does not add station_id to its
+                    # raspberry_connections dict until a state_update arrives — which
+                    # otherwise only happens when an Arduino reports sensor data.
+                    await self._send_presence()
 
                     async for message in ws:
                         try:
@@ -72,6 +79,26 @@ class VpsBridge:
             logger.warning("VPS bridge disconnected — reconnecting in %.0fs (backoff)", backoff)
             await asyncio.sleep(backoff)
             backoff = min(backoff * 2, MAX_BACKOFF)
+
+    async def _send_presence(self) -> None:
+        if not self._station_id or self._ws is None:
+            return
+        try:
+            cached = self._app_state.station_live.get(self._station_id, {}) if self._app_state else {}
+            pumps_on = getattr(self._app_state.pump_ctrl, "pumps_on", False)
+            auto_enabled = getattr(self._app_state.auto_ctrl, "enabled", False)
+            await self._ws.send(json.dumps({
+                "type": "state_update",
+                "station_id": self._station_id,
+                "level_pct": cached.get("level_pct"),
+                "volume_l": cached.get("volume_l"),
+                "moisture_pct": cached.get("moisture_pct"),
+                "pumps": pumps_on,
+                "mode": "auto" if auto_enabled else "manual",
+            }))
+            logger.info("VPS presence sent (station=%s)", self._station_id)
+        except Exception:
+            logger.exception("Failed to send VPS presence (station=%s)", self._station_id)
 
     async def send_state(self, state_dict: dict) -> None:
         if self._ws is None:
