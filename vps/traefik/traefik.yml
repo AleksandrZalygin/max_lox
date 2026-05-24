@@ -18,7 +18,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: maks.kotov38@@gmail.com
+      email: maks.kotov38@gmail.com
       storage: /acme.json
       httpChallenge:
         entryPoint: web

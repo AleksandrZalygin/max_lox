@@ -26,7 +26,7 @@ services:
       - internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`${DOMAIN:-yourdomain.com}`)"
+      - "traefik.http.routers.app.rule=Host(`${DOMAIN:-http://phantom-messenger.ru}`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.routers.app.tls.certresolver=letsencrypt"
       - "traefik.http.services.app.loadbalancer.server.port=80"

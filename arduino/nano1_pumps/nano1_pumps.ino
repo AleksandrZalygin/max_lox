@@ -20,9 +20,9 @@
 #include <ArduinoJson.h>
 
 // ── Configuration ──────────────────────────────────────────────────────────
-#define WIFI_SSID      "YourNetworkName"
-#define WIFI_PASS      "YourPassword"
-#define SERVER_HOST    "192.168.1.100"
+#define WIFI_SSID      "Sting's Galaxy S22 Ultra"
+#define WIFI_PASS      "123456789"
+#define SERVER_HOST    "10.165.149.244"
 #define SERVER_PORT    8000
 #define WS_PATH        "/ws/arduino"
 #define STATION_ID     "station_001"
