@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import bcrypt as bcrypt_lib
 from jose import JWTError, jwt
+import bcrypt as bcrypt_lib
 from pydantic import BaseModel
 
 from config import settings
