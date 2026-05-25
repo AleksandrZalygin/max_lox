@@ -88,31 +88,31 @@ export const CalibrationModal: React.FC = () => {
   return (
     <div style={s.root}>
       <div style={s.header}>
-        <div style={s.title}>Calibration</div>
+        <div style={s.title}>Калибровка</div>
         <button
           style={{ ...s.btn, background: "#334155", color: "#94a3b8" }}
           onClick={() => (window.location.href = "#/")}
         >
-          ← Dashboard
+          ← Главная
         </button>
       </div>
 
       <div style={s.card}>
         <div style={s.row}>
-          {field("distance_empty", "Distance (tank empty)", "cm")}
-          {field("distance_full", "Distance (tank full)", "cm")}
+          {field("distance_empty", "Расстояние (пустой бак)", "см")}
+          {field("distance_full", "Расстояние (полный бак)", "см")}
         </div>
         <div style={s.row}>
-          {field("length_cm", "Tank length", "cm")}
-          {field("width_cm", "Tank width", "cm")}
-          {field("height_cm", "Tank height", "cm")}
+          {field("length_cm", "Длина бака", "см")}
+          {field("width_cm", "Ширина бака", "см")}
+          {field("height_cm", "Высота бака", "см")}
         </div>
 
         <div style={s.formula}>
-          <div>level% = (distance_empty − current_distance) / (distance_empty − distance_full) × 100</div>
-          <div>volume_L = length × width × (height × level% / 100) / 1000</div>
+          <div>уровень% = (расст_пусто − текущее_расст) / (расст_пусто − расст_полно) × 100</div>
+          <div>объём_Л = длина × ширина × (высота × уровень% / 100) / 1000</div>
           <div style={{ color: "#3b82f6", marginTop: 8 }}>
-            Max volume = {((form.length_cm * form.width_cm * form.height_cm) / 1000).toFixed(1)} L
+            Макс. объём = {((form.length_cm * form.width_cm * form.height_cm) / 1000).toFixed(1)} Л
           </div>
         </div>
 
@@ -121,22 +121,22 @@ export const CalibrationModal: React.FC = () => {
             style={{ ...s.btn, background: saved ? "#22c55e" : "#3b82f6", color: "white" }}
             onClick={handleSave}
           >
-            {saved ? "Saved!" : "Save Calibration"}
+            {saved ? "Сохранено!" : "Сохранить калибровку"}
           </button>
           {error && <span style={{ color: "#ef4444", fontSize: 13 }}>{error}</span>}
         </div>
       </div>
 
       <div style={{ ...s.card, color: "#94a3b8", fontSize: 14, lineHeight: 1.8 }}>
-        <div style={{ fontWeight: 600, color: "#f1f5f9", marginBottom: 8 }}>Calibration Procedure</div>
+        <div style={{ fontWeight: 600, color: "#f1f5f9", marginBottom: 8 }}>Процедура калибровки</div>
         <ol style={{ paddingLeft: 20 }}>
-          <li>Empty the tank completely. Note the HC-SR04 reading — enter as "Distance (tank empty)".</li>
-          <li>Fill the tank to the maximum safe level. Note the HC-SR04 reading — enter as "Distance (tank full)".</li>
-          <li>Measure the tank interior dimensions and enter them.</li>
-          <li>Click Save. The system will immediately use the new values.</li>
+          <li>Полностью опорожните бак. Запишите показание HC-SR04 — введите как «Расстояние (пустой бак)».</li>
+          <li>Заполните бак до максимально безопасного уровня. Запишите показание HC-SR04 — введите как «Расстояние (полный бак)».</li>
+          <li>Измерьте внутренние размеры бака и введите их.</li>
+          <li>Нажмите «Сохранить». Система сразу начнёт использовать новые значения.</li>
         </ol>
         <div style={{ marginTop: 12, color: "#64748b", fontSize: 12 }}>
-          Tip: The HC-SR04 is mounted on the lid, facing down. Empty tank = larger distance. Full tank = smaller distance.
+          Подсказка: HC-SR04 закреплён на крышке и направлен вниз. Пустой бак = большее расстояние. Полный бак = меньшее расстояние.
         </div>
       </div>
     </div>

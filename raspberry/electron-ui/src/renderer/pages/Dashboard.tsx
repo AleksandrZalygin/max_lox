@@ -1,11 +1,35 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TankVisual } from "../components/TankVisual";
 import { MoistureGauge } from "../components/MoistureGauge";
 import { EventLog } from "../components/EventLog";
 import { ApiEvent, Station, StationState } from "../types";
+import {
+  MOISTURE_DRAIN_THRESHOLD_PCT,
+  normalizeMoisture,
+} from "../moisture";
 
 const API_BASE = "http://localhost:8000";
 const WS_URL = "ws://localhost:8000/ws/clients";
+
+// Сглаживание HC-SR04 (двухступенчатое: медиана + EMA).
+// Медиана режет одиночные выбросы (типично для ультразвука), EMA приглаживает остаток.
+const MEDIAN_WINDOW = 5;
+const SMOOTHING_ALPHA = 0.25;
+const CONSUMPTION_THRESHOLD_L = 0.15;
+const FLOW_WINDOW_MS = 30_000;
+const STALE_GAP_MS = 60_000;
+// Лёгкое EMA-сглаживание для индикатора влажности (быстрее, чем для эхо-датчика —
+// сенсор должен реагировать на старт/прекращение слива, но не дёргаться).
+const MOISTURE_SMOOTH_ALPHA = 0.4;
+const CONSUMED_STORAGE_KEY = "iot-water-ui:consumed-total-l";
+
+const pushMedian = (buf: number[], v: number, window: number): number => {
+  buf.push(v);
+  while (buf.length > window) buf.shift();
+  const sorted = buf.slice().sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+};
 
 const s: Record<string, React.CSSProperties> = {
   root: { display: "flex", flexDirection: "column", height: "100vh", padding: 20, gap: 16 },
@@ -24,20 +48,43 @@ const s: Record<string, React.CSSProperties> = {
   btnGreen: { background: "#22c55e", color: "white" },
   btnRed: { background: "#ef4444", color: "white" },
   btnDisabled: { background: "#334155", color: "#64748b", cursor: "not-allowed" },
-  alert: {
-    background: "#7f1d1d", border: "1px solid #ef4444", borderRadius: 12,
-    padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center",
-  },
 };
+
+const readStoredConsumed = (): number => {
+  try {
+    const raw = localStorage.getItem(CONSUMED_STORAGE_KEY);
+    if (!raw) return 0;
+    const v = parseFloat(raw);
+    return Number.isFinite(v) && v >= 0 ? v : 0;
+  } catch {
+    return 0;
+  }
+};
+
+const ema = (prev: number | null, next: number, alpha: number): number =>
+  prev === null ? next : prev + alpha * (next - prev);
 
 export const Dashboard: React.FC = () => {
   const [station, setStation] = useState<Station | null>(null);
   const [liveState, setLiveState] = useState<StationState | null>(null);
   const [events, setEvents] = useState<ApiEvent[]>([]);
-  const [leakAlert, setLeakAlert] = useState(false);
   const [wsConnected, setWsConnected] = useState(false);
   const [targetLevel, setTargetLevel] = useState(80);
+  const [consumedTotal, setConsumedTotal] = useState<number>(readStoredConsumed);
+  const [flowRate, setFlowRate] = useState<number>(0);
+  const [smoothedVolume, setSmoothedVolume] = useState<number | null>(null);
+  const [smoothedLevel, setSmoothedLevel] = useState<number | null>(null);
+  const [smoothedMoisture, setSmoothedMoisture] = useState<number | null>(null);
+
   const wsRef = useRef<WebSocket | null>(null);
+  const smoothedVolumeRef = useRef<number | null>(null);
+  const smoothedLevelRef = useRef<number | null>(null);
+  const smoothedMoistureRef = useRef<number | null>(null);
+  const trackHighRef = useRef<number | null>(null);
+  const volumeSamplesRef = useRef<{ ts: number; v: number }[]>([]);
+  const lastUpdateTsRef = useRef<number>(0);
+  const volumeMedianBufRef = useRef<number[]>([]);
+  const levelMedianBufRef = useRef<number[]>([]);
 
   // Load station and events
   useEffect(() => {
@@ -47,13 +94,21 @@ export const Dashboard: React.FC = () => {
         const s = stations[0];
         setStation(s);
         setTargetLevel(s.target_level ?? 80);
-        // Load events
         window.api.call("GET", `/api/stations/${s.id}/events`).then((evts) => {
           setEvents(evts as ApiEvent[]);
         });
       }
     });
   }, []);
+
+  // Persist accumulated consumption
+  useEffect(() => {
+    try {
+      localStorage.setItem(CONSUMED_STORAGE_KEY, consumedTotal.toString());
+    } catch {
+      // ignore storage errors
+    }
+  }, [consumedTotal]);
 
   const connectWs = useCallback(() => {
     const ws = new WebSocket(WS_URL);
@@ -66,17 +121,96 @@ export const Dashboard: React.FC = () => {
     };
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      if (data.type === "state_update") {
-        setLiveState(data as StationState);
-        // Refresh events periodically on state update
-        if (station && Math.random() < 0.05) {
-          window.api.call("GET", `/api/stations/${station.id}/events`).then((evts) => {
-            setEvents(evts as ApiEvent[]);
-          });
+      if (data.type !== "state_update") {
+        // ignore other message types (incl. leak alerts — see user request)
+        return;
+      }
+
+      setLiveState(data as StationState);
+
+      const rawVolume: number | null = data.volume_l;
+      const rawLevel: number | null = data.level_pct;
+      const pumpsOn: boolean = !!data.pumps;
+      const now = Date.now();
+
+      // Reset filters on long gap (reconnect after offline period)
+      if (
+        lastUpdateTsRef.current !== 0 &&
+        now - lastUpdateTsRef.current > STALE_GAP_MS
+      ) {
+        smoothedVolumeRef.current = null;
+        smoothedLevelRef.current = null;
+        smoothedMoistureRef.current = null;
+        trackHighRef.current = null;
+        volumeSamplesRef.current = [];
+        volumeMedianBufRef.current = [];
+        levelMedianBufRef.current = [];
+      }
+      lastUpdateTsRef.current = now;
+
+      // Smooth moisture (separately — no median, just EMA)
+      const moistNorm = normalizeMoisture(data.moisture_pct);
+      if (moistNorm !== null) {
+        const sm = ema(smoothedMoistureRef.current, moistNorm, MOISTURE_SMOOTH_ALPHA);
+        smoothedMoistureRef.current = sm;
+        setSmoothedMoisture(sm);
+      }
+
+      if (typeof rawLevel === "number" && Number.isFinite(rawLevel)) {
+        const med = pushMedian(levelMedianBufRef.current, rawLevel, MEDIAN_WINDOW);
+        const sm = ema(smoothedLevelRef.current, med, SMOOTHING_ALPHA);
+        smoothedLevelRef.current = sm;
+        setSmoothedLevel(sm);
+      }
+
+      if (typeof rawVolume === "number" && Number.isFinite(rawVolume)) {
+        const med = pushMedian(volumeMedianBufRef.current, rawVolume, MEDIAN_WINDOW);
+        const smV = ema(smoothedVolumeRef.current, med, SMOOTHING_ALPHA);
+        smoothedVolumeRef.current = smV;
+        setSmoothedVolume(smV);
+
+        // Cumulative consumption (high-water-mark on smoothed volume)
+        if (pumpsOn) {
+          // While pumps are filling, just track the new peak
+          if (trackHighRef.current === null || smV > trackHighRef.current) {
+            trackHighRef.current = smV;
+          }
+        } else if (trackHighRef.current === null) {
+          trackHighRef.current = smV;
+        } else if (smV > trackHighRef.current) {
+          // Volume rose without pumps (manual fill, refill from elsewhere) — reset peak
+          trackHighRef.current = smV;
+        } else {
+          const drop = trackHighRef.current - smV;
+          if (drop > CONSUMPTION_THRESHOLD_L) {
+            setConsumedTotal((prev) => prev + drop);
+            trackHighRef.current = smV;
+          }
+        }
+
+        // Sliding window for instantaneous flow rate (smoothed samples)
+        const samples = volumeSamplesRef.current;
+        samples.push({ ts: now, v: smV });
+        while (samples.length > 0 && now - samples[0].ts > FLOW_WINDOW_MS) {
+          samples.shift();
+        }
+
+        if (samples.length >= 2 && !pumpsOn) {
+          const first = samples[0];
+          const last = samples[samples.length - 1];
+          const dtMin = (last.ts - first.ts) / 60_000;
+          const dv = first.v - last.v;
+          setFlowRate(dtMin > 0 && dv > 0 ? dv / dtMin : 0);
+        } else {
+          setFlowRate(0);
         }
       }
-      if (data.type === "alert" && data.alert === "leak_detected") {
-        setLeakAlert(true);
+
+      // Refresh events occasionally
+      if (station && Math.random() < 0.05) {
+        window.api.call("GET", `/api/stations/${station.id}/events`).then((evts) => {
+          setEvents(evts as ApiEvent[]);
+        });
       }
     };
     ws.onerror = () => ws.close();
@@ -87,9 +221,15 @@ export const Dashboard: React.FC = () => {
     return () => wsRef.current?.close();
   }, [connectWs]);
 
-  const level = liveState?.level_pct ?? station?.level_pct ?? null;
-  const volume = liveState?.volume_l ?? station?.volume_l ?? null;
-  const moisture = liveState?.moisture_pct ?? station?.moisture_pct ?? null;
+  // Display values: prefer smoothed (renderer-side), fall back to last known
+  const level =
+    smoothedLevel ?? liveState?.level_pct ?? station?.level_pct ?? null;
+  const volume =
+    smoothedVolume ?? liveState?.volume_l ?? station?.volume_l ?? null;
+  const moistureRaw = liveState?.moisture_pct ?? station?.moisture_pct ?? null;
+  // Prefer EMA-smoothed value (live, builds up after first WS message);
+  // fall back to raw → normalized if smoothing hasn't kicked in yet.
+  const moisture = smoothedMoisture ?? normalizeMoisture(moistureRaw);
   const pumpsOn = liveState?.pumps ?? station?.pumps ?? false;
   const mode = liveState?.mode ?? station?.mode ?? "manual";
   const stationId = station?.id ?? "";
@@ -109,13 +249,23 @@ export const Dashboard: React.FC = () => {
     }
   };
 
+  const handleResetConsumed = () => {
+    setConsumedTotal(0);
+  };
+
   const pumpBtnDisabled = level !== null && level >= 100 && !pumpsOn;
+  const drainOpen = (moisture ?? 0) > MOISTURE_DRAIN_THRESHOLD_PCT;
+
+  const visibleEvents = useMemo(
+    () => events.filter((ev) => ev.type !== "leak_detected"),
+    [events]
+  );
 
   return (
     <div style={s.root}>
       {/* Header */}
       <div style={s.header}>
-        <div style={s.title}>Water Tank</div>
+        <div style={s.title}>Бак с водой</div>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           <div
             style={{
@@ -124,35 +274,22 @@ export const Dashboard: React.FC = () => {
               color: wsConnected ? "#4ade80" : "#f87171",
             }}
           >
-            {wsConnected ? "Live" : "Reconnecting..."}
+            {wsConnected ? "В сети" : "Переподключение..."}
           </div>
           <button
             style={{ ...s.btn, padding: "8px 16px", fontSize: 13, background: "#334155", color: "#94a3b8" }}
             onClick={() => (window.location.href = "#/history")}
           >
-            History
+            История
           </button>
           <button
             style={{ ...s.btn, padding: "8px 16px", fontSize: 13, background: "#334155", color: "#94a3b8" }}
             onClick={() => (window.location.href = "#/calibration")}
           >
-            Calibration
+            Калибровка
           </button>
         </div>
       </div>
-
-      {/* Leak alert */}
-      {leakAlert && (
-        <div style={s.alert}>
-          <span style={{ color: "#fca5a5", fontWeight: 600 }}>⚠ Leak detected! Level dropping without drain flow.</span>
-          <button
-            style={{ ...s.btn, padding: "6px 14px", fontSize: 13, background: "#991b1b", color: "white" }}
-            onClick={() => setLeakAlert(false)}
-          >
-            Dismiss
-          </button>
-        </div>
-      )}
 
       {/* Main content */}
       <div style={s.row}>
@@ -160,8 +297,8 @@ export const Dashboard: React.FC = () => {
         <div style={{ ...s.card, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, minWidth: 180 }}>
           <TankVisual levelPct={level} pumpsOn={pumpsOn} height={280} width={150} />
           <div style={{ textAlign: "center" }}>
-            <div style={s.label}>Volume</div>
-            <div style={s.value}>{volume !== null ? `${volume.toFixed(1)} L` : "—"}</div>
+            <div style={s.label}>Объём</div>
+            <div style={s.value}>{volume !== null ? `${volume.toFixed(1)} Л` : "—"}</div>
           </div>
         </div>
 
@@ -169,21 +306,21 @@ export const Dashboard: React.FC = () => {
         <div style={{ display: "flex", flexDirection: "column", gap: 16, flex: 1 }}>
           {/* Pump control */}
           <div style={s.card}>
-            <div style={s.label}>Pump Control</div>
+            <div style={s.label}>Управление насосами</div>
             <div style={{ display: "flex", gap: 12, marginTop: 12, alignItems: "center" }}>
               <button
                 style={{ ...s.btn, ...(pumpBtnDisabled || pumpsOn || mode === "auto" ? s.btnDisabled : s.btnGreen) }}
                 disabled={pumpBtnDisabled || pumpsOn || mode === "auto"}
                 onClick={() => handlePump("on")}
               >
-                Start Filling
+                Начать наполнение
               </button>
               <button
                 style={{ ...s.btn, ...(!pumpsOn || mode === "auto" ? s.btnDisabled : s.btnRed) }}
                 disabled={!pumpsOn || mode === "auto"}
                 onClick={() => handlePump("off")}
               >
-                Stop
+                Остановить
               </button>
               <div
                 style={{
@@ -195,24 +332,24 @@ export const Dashboard: React.FC = () => {
                   fontWeight: 600,
                 }}
               >
-                Pumps: {pumpsOn ? "ON" : "OFF"}
+                Насосы: {pumpsOn ? "ВКЛ" : "ВЫКЛ"}
               </div>
             </div>
           </div>
 
           {/* Auto mode */}
           <div style={s.card}>
-            <div style={s.label}>Auto Mode</div>
+            <div style={s.label}>Автоматический режим</div>
             <div style={{ display: "flex", gap: 16, marginTop: 12, alignItems: "center" }}>
               <button
                 style={{ ...s.btn, ...(mode === "auto" ? s.btnRed : s.btnGreen) }}
                 onClick={handleModeToggle}
               >
-                {mode === "auto" ? "Disable Auto" : "Enable Auto"}
+                {mode === "auto" ? "Выключить авто" : "Включить авто"}
               </button>
               {mode !== "auto" && (
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ color: "#94a3b8", fontSize: 14 }}>Target:</span>
+                  <span style={{ color: "#94a3b8", fontSize: 14 }}>Цель:</span>
                   <input
                     type="range"
                     min={10}
@@ -226,28 +363,61 @@ export const Dashboard: React.FC = () => {
               )}
               {mode === "auto" && (
                 <div style={{ color: "#a78bfa", fontWeight: 600 }}>
-                  Auto active — target: {liveState?.target_level ?? targetLevel}%
+                  Авто-режим активен — цель: {liveState?.target_level ?? targetLevel}%
                 </div>
               )}
             </div>
           </div>
 
-          {/* Moisture / drain */}
-          <div style={{ ...s.card, display: "flex", alignItems: "center", gap: 24 }}>
+          {/* Consumption */}
+          <div style={{ ...s.card, display: "flex", alignItems: "center", gap: 16 }}>
             <MoistureGauge moisturePct={moisture} />
-            <div>
-              <div style={s.label}>Drain Status</div>
-              <div style={{ fontSize: 16, color: (moisture ?? 0) > 30 ? "#3b82f6" : "#64748b", fontWeight: 600, marginTop: 4 }}>
-                {(moisture ?? 0) > 30 ? "Water flowing" : "No flow"}
+            <div style={{ flex: 1 }}>
+              <div style={s.label}>Расход воды</div>
+              <div style={{ display: "flex", gap: 32, marginTop: 10, alignItems: "flex-start", flexWrap: "wrap" }}>
+                <div>
+                  <div style={{ fontSize: 12, color: "#94a3b8" }}>Сейчас</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "#f1f5f9", marginTop: 2 }}>
+                    {flowRate >= 0.01 ? `${flowRate.toFixed(2)} Л/мин` : "0 Л/мин"}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 12, color: "#94a3b8" }}>Всего</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "#3b82f6", marginTop: 2 }}>
+                    {consumedTotal.toFixed(2)} Л
+                  </div>
+                </div>
+              </div>
+              <div style={{ fontSize: 11, color: drainOpen ? "#3b82f6" : "#64748b", marginTop: 8 }}>
+                {moisture === null
+                  ? "Сток: нет данных"
+                  : `Сток: ${moisture.toFixed(0)} % (датчик влажности)`}
               </div>
             </div>
+            <button
+              style={{
+                padding: "8px 14px",
+                borderRadius: 10,
+                border: "none",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                background: "#334155",
+                color: "#e2e8f0",
+                alignSelf: "flex-start",
+              }}
+              onClick={handleResetConsumed}
+              title="Обнулить накопленный расход"
+            >
+              Сброс
+            </button>
           </div>
 
           {/* Event log */}
           <div style={{ ...s.card, flex: 1 }}>
-            <div style={s.label}>Recent Events</div>
+            <div style={s.label}>Последние события</div>
             <div style={{ marginTop: 8 }}>
-              <EventLog events={events} />
+              <EventLog events={visibleEvents} />
             </div>
           </div>
         </div>

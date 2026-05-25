@@ -67,25 +67,33 @@ async def _broadcast(payload: dict) -> None:
         )
 
 
-async def _get_station_calibration(station_id: str) -> dict:
+async def _resolve_station(station_id: str) -> tuple[uuid.UUID | None, dict]:
+    """Resolve a wire station_id (UUID-string OR name like 'station_001') to
+    its DB UUID + calibration. Returns (None, {}) if no row matches — caller
+    should treat that as 'no DB persistence this round', not as a fatal error."""
     async with AsyncSessionLocal() as db:
-        result = await db.execute(
-            select(Station).where(Station.id == uuid.UUID(station_id))
-        )
+        try:
+            sid_uuid = uuid.UUID(station_id)
+            result = await db.execute(select(Station).where(Station.id == sid_uuid))
+        except ValueError:
+            result = await db.execute(select(Station).where(Station.name == station_id))
         station = result.scalar_one_or_none()
-        if station:
-            cal = station.calibration or {}
-            if not cal:
-                logger.warning(
-                    "Station %s has no calibration data — level/volume will be 0",
-                    station_id,
-                )
-            return cal
-    logger.error(
-        "Station %s not found in DB — cannot compute level (is station registered?)",
-        station_id,
-    )
-    return {}
+        if not station:
+            logger.warning(
+                "Station '%s' not found in DB (looked up by UUID and by name) — "
+                "DB persistence will be skipped this round",
+                station_id,
+            )
+            return None, {}
+        cal = station.calibration or {}
+        if not cal:
+            logger.warning(
+                "Station %s has no calibration data — level/volume will be 0",
+                station.id,
+            )
+        return station.id, cal
+
+
 
 
 @router.websocket("/ws/arduino")
@@ -138,7 +146,7 @@ async def arduino_ws_endpoint(websocket: WebSocket) -> None:
                         )
 
                 if msg.distance_cm is not None:
-                    cal = await _get_station_calibration(station_id)
+                    station_uuid, cal = await _resolve_station(station_id)
                     level_pct = _compute_level(msg.distance_cm, cal)
                     volume_l = _compute_volume(level_pct, cal)
 
@@ -162,7 +170,7 @@ async def arduino_ws_endpoint(websocket: WebSocket) -> None:
                     moisture_pct = app_state.last_moisture.get(station_id)
                     async with AsyncSessionLocal() as db:
                         is_leak = leak_detector.update(level_pct, moisture_pct, pump_ctrl.pumps_on)
-                        if is_leak:
+                        if is_leak and station_uuid is not None:
                             logger.error(
                                 "LEAK EVENT: persisting leak_detected event for station=%s "
                                 "(level=%.1f%% moisture=%s)",
@@ -170,7 +178,7 @@ async def arduino_ws_endpoint(websocket: WebSocket) -> None:
                                 f"{moisture_pct:.1f}%" if moisture_pct is not None else "N/A",
                             )
                             db.add(Event(
-                                station_id=uuid.UUID(station_id),
+                                station_id=station_uuid,
                                 type="leak_detected",
                                 payload={"level_pct": level_pct, "moisture_pct": moisture_pct},
                             ))
@@ -187,11 +195,11 @@ async def arduino_ws_endpoint(websocket: WebSocket) -> None:
                             )
 
                     last_saved = app_state.last_saved_ts.get(station_id, 0.0)
-                    if now - last_saved >= 5.0:
+                    if station_uuid is not None and now - last_saved >= 5.0:
                         try:
                             async with AsyncSessionLocal() as db:
                                 db.add(Measurement(
-                                    station_id=uuid.UUID(station_id),
+                                    station_id=station_uuid,
                                     level_pct=level_pct,
                                     volume_l=volume_l,
                                     moisture_raw=None,
@@ -254,6 +262,29 @@ async def arduino_ws_endpoint(websocket: WebSocket) -> None:
                         )
                     if station_id in app_state.station_live:
                         app_state.station_live[station_id]["moisture_pct"] = msg.moisture_pct
+
+                    # ESP32 standalone visibility: nano1 used to be the only branch that
+                    # broadcast to Electron and pushed to the VPS, so a moisture-only
+                    # station (no nano1) was invisible everywhere. Mirror those sends
+                    # here using the latest cached level/volume (may be None).
+                    cached = app_state.station_live.get(station_id, {})
+                    payload = {
+                        "type": "state_update",
+                        "station_id": station_id,
+                        "level_pct": cached.get("level_pct"),
+                        "volume_l": cached.get("volume_l"),
+                        "moisture_pct": msg.moisture_pct,
+                        "pumps": pump_ctrl.pumps_on,
+                        "mode": "auto" if auto_ctrl.enabled else "manual",
+                        "target_level": auto_ctrl.target_level,
+                    }
+                    await _broadcast(payload)
+
+                    last_vps = app_state.last_vps_ts.get(station_id, 0.0)
+                    if now - last_vps >= 2.0:
+                        vps_payload = {k: v for k, v in payload.items() if k != "target_level"}
+                        await vps_bridge.send_state(vps_payload)
+                        app_state.last_vps_ts[station_id] = now
                 else:
                     logger.warning(
                         "Nano2 message missing moisture_pct (station=%s raw=%s)",
@@ -278,7 +309,7 @@ async def arduino_ws_endpoint(websocket: WebSocket) -> None:
     finally:
         if station_id:
             app_state.arduino_connections.pop(station_id, None)
-        pump_ctrl.unregister_arduino()
+        pump_ctrl.unregister_arduino_if(websocket)
         logger.info(
             "Arduino cleanup done (station=%s device=%s)",
             station_id, device_type,

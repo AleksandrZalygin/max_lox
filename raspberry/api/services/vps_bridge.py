@@ -39,6 +39,14 @@ class VpsBridge:
                 async with ws_connect(
                     self._vps_url,
                     additional_headers={"X-API-Key": self._api_key},
+                    # Mobile/4G uplinks NAT-drop idle TCP without sending RST.
+                    # Without an active heartbeat the bridge can sit on a dead
+                    # socket for hours. 20s pings + 10s pong timeout means a
+                    # hung uplink is detected in ≤30s and reconnect kicks in.
+                    ping_interval=20,
+                    ping_timeout=10,
+                    close_timeout=5,
+                    open_timeout=15,
                 ) as ws:
                     self._ws = ws
                     self._connect_count += 1

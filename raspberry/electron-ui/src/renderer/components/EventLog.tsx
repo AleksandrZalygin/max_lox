@@ -21,6 +21,16 @@ const EVENT_COLORS: Record<string, string> = {
   pumps_off: "#94a3b8",
 };
 
+const EVENT_LABELS: Record<string, string> = {
+  fill_start: "Начало наполнения",
+  fill_stop: "Конец наполнения",
+  leak_detected: "Обнаружена утечка",
+  auto_mode_on: "Автомат включён",
+  auto_mode_off: "Автомат выключен",
+  pumps_on: "Насосы включены",
+  pumps_off: "Насосы выключены",
+};
+
 interface EventLogProps {
   events: ApiEvent[];
 }
@@ -29,7 +39,7 @@ export const EventLog: React.FC<EventLogProps> = ({ events }) => {
   return (
     <div style={{ overflow: "auto", maxHeight: 200 }}>
       {events.length === 0 && (
-        <div style={{ color: "#64748b", padding: "8px 0", fontSize: 13 }}>No events yet</div>
+        <div style={{ color: "#64748b", padding: "8px 0", fontSize: 13 }}>Событий пока нет</div>
       )}
       {events.map((ev) => (
         <div
@@ -50,7 +60,7 @@ export const EventLog: React.FC<EventLogProps> = ({ events }) => {
             {new Date(ev.timestamp).toLocaleTimeString()}
           </span>
           <span style={{ color: EVENT_COLORS[ev.type] ?? "#e2e8f0" }}>
-            {ev.type.replace(/_/g, " ")}
+            {EVENT_LABELS[ev.type] ?? ev.type.replace(/_/g, " ")}
           </span>
           {ev.payload && Object.keys(ev.payload).length > 0 && (
             <span style={{ color: "#64748b", fontSize: 11 }}>

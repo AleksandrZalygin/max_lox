@@ -44,7 +44,7 @@ export const MoistureGauge: React.FC<MoistureGaugeProps> = ({ moisturePct }) => 
         </text>
       </svg>
       <div style={{ color: "#94a3b8", fontSize: 12, marginTop: 4 }}>
-        {pct > 30 ? "Flow detected" : "No flow"}
+        {pct > 30 ? "Зафиксирован проток" : "Нет потока"}
       </div>
     </div>
   );
